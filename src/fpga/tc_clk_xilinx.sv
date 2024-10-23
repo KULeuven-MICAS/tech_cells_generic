@@ -44,7 +44,13 @@ module tc_clk_gating #(
     output logic clk_o
 );
 
-  BUFGCE bufgce_inst (
+  BUFGCE #(
+`ifdef TARGET_VPK180
+      .SIM_DEVICE("VERSAL_PRIME")
+`elsif TARGET_VCU128
+      .SIM_DEVICE("ULTRASCALE")
+`endif
+  ) bufgce_inst (
       .O (clk_o),  // Output clock
       .CE(en_i),   // Clock enable signal
       .I (clk_i)   // Input clock
