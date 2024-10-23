@@ -46,14 +46,15 @@ module tc_clk_gating #(
 
   BUFGCE #(
 `ifdef TARGET_VPK180
-      .SIM_DEVICE("VERSAL_PRIME")
+      .SIM_DEVICE("VERSAL_PRIME"),
+      .CE_TYPE("HARDSYNC")
 `elsif TARGET_VCU128
       .SIM_DEVICE("ULTRASCALE")
 `endif
   ) bufgce_inst (
-      .O (clk_o),  // Output clock
-      .CE(en_i),   // Clock enable signal
-      .I (clk_i)   // Input clock
+      .O(clk_o),  // Output clock
+      .CE(en_i | test_en_i),  // Clock enable signal
+      .I(clk_i)  // Input clock
   );
 
 endmodule
