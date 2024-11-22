@@ -127,7 +127,7 @@ module tc_sram #(
   // content at all. This improves simulation performance in tools like verilator
   if (SimInit == "none") begin
     // write memory array without initialization
-    always_ff @(posedge clk_i or negedge rst_ni) begin
+    always @(posedge clk_i or negedge rst_ni) begin
       if (!rst_ni) begin
         for (int i = 0; i < NumPorts; i++) begin
           r_addr_q[i] <= {AddrWidth{1'b0}};
@@ -161,7 +161,7 @@ module tc_sram #(
     end
   end else begin
     // write memory array
-    always_ff @(posedge clk_i or negedge rst_ni) begin
+    always @(posedge clk_i or negedge rst_ni) begin
       if (!rst_ni) begin
         sram <= init_val;
         for (int i = 0; i < NumPorts; i++) begin
@@ -241,5 +241,14 @@ module tc_sram #(
 
 `endif
 `endif
+task automatic load_data(input string filename);
+  begin
+    // Initialization of the memory array
+    foreach (sram[i]) sram[i] = '0;
+    // Load data from file
+    $readmemh(filename, sram);
+    $display("Loaded data from %s into memory", filename);
+  end
+endtask
 // pragma translate_on
 endmodule
