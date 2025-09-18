@@ -37,7 +37,7 @@ sources:
       - src/deprecated/pad_functional.sv
       - src/deprecated/pulp_buffer.sv
       - src/deprecated/pulp_pwr_cells.sv
-      
+
   - target: all(any(not(synthesis), tech_cells_generic_include_pwr_cells), not(tech_cells_generic_exclude_pwr_cells))
     files:
       - src/tc_pwr.sv
