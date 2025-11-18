@@ -4,13 +4,17 @@
 
 // Author: Yunhao Deng <yunhao.deng@kuleuven.be>
 
-module tc_analog_io (
+module tc_analog_io #(
+    parameter int VerticalIO = 0
+) (
     inout wire io
 );
   assign io = 1'bz;
 endmodule
 
-module tc_digital_io (
+module tc_digital_io #(
+    parameter int VerticalIO = 0
+) (
     // Input data
     input wire data_i,
     // Output data
