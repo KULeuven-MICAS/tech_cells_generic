@@ -40,3 +40,14 @@ module tc_digital_io #(
   assign data_o = io;
 
 endmodule
+
+module tc_digital_io_power_supply #(
+    parameter int VerticalIO = 0
+);
+endmodule
+
+module tc_digital_io_special_block #(
+    parameter int VerticalIO = 0
+);
+endmodule
+
