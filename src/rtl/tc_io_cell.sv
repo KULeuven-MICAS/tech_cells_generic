@@ -20,6 +20,7 @@ module tc_digital_io #(
     // Output data
     output wire data_o,
     // IO interface towards pad + ctrl
+    input wire rte_i,
     input wire io_direction_oe_ni,
     input wire [3:0] io_driving_strength_i,
     input wire io_pullup_en_i,
@@ -41,13 +42,19 @@ module tc_digital_io #(
 
 endmodule
 
+(* dont_touch = "true" *)
 module tc_digital_io_power_supply #(
     parameter int VerticalIO = 0
+) (
+    input logic rte_i
 );
 endmodule
 
+(* dont_touch = "true" *)
 module tc_digital_io_special_block #(
     parameter int VerticalIO = 0
+) (
+    output logic rte_o
 );
+  assign rte_o = 1'b0;
 endmodule
-
