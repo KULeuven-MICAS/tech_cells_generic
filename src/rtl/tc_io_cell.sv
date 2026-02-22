@@ -51,6 +51,14 @@ module tc_digital_io_power_supply #(
 endmodule
 
 (* dont_touch = "true" *)
+module tc_core_power_supply #(
+    parameter int VerticalIO = 0
+) (
+    input logic rte_i
+);
+endmodule
+
+(* dont_touch = "true" *)
 module tc_digital_io_special_block #(
     parameter int VerticalIO = 0
 ) (
