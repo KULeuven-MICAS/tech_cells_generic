@@ -37,6 +37,15 @@ module tc_clk_buffer (
 
 endmodule
 
+module tc_clk_buffer_hs (
+  input  logic clk_i,
+  output logic clk_o
+);
+
+  assign clk_o = clk_i;
+
+endmodule
+
 // Description: Behavioral model of an integrated clock-gating cell (ICG)
 module tc_clk_gating #(
   /// This paramaeter is a hint for tool/technology specific mappings of this
@@ -63,6 +72,15 @@ module tc_clk_gating #(
 endmodule
 
 module tc_clk_inverter (
+  input  logic clk_i,
+  output logic clk_o
+);
+
+  assign clk_o = ~clk_i;
+
+endmodule
+
+module tc_clk_inverter_hs (
   input  logic clk_i,
   output logic clk_o
 );
