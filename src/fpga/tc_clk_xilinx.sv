@@ -29,6 +29,15 @@ module tc_clk_buffer (
 
 endmodule
 
+module tc_clk_buffer_hs (
+    input  logic clk_i,
+    output logic clk_o
+);
+
+  assign clk_o = clk_i;
+
+endmodule
+
 // Disable clock gating on FPGA as it behaves differently than expected
 module tc_clk_gating #(
     /// This paramaeter is a hint for tool/technology specific mappings of this
@@ -60,6 +69,15 @@ module tc_clk_gating #(
 endmodule
 
 module tc_clk_inverter (
+    input  logic clk_i,
+    output logic clk_o
+);
+
+  assign clk_o = ~clk_i;
+
+endmodule
+
+module tc_clk_inverter_hs (
     input  logic clk_i,
     output logic clk_o
 );
