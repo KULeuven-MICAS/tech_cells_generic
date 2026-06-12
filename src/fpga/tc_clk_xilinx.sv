@@ -38,14 +38,14 @@ module tc_clk_buffer_hs (
 
 endmodule
 
-// Disable clock gating on FPGA as it behaves differently than expected
+// FPGA's clock gating cell resource is scarce and should not be implemented by default.
 module tc_clk_gating #(
     /// This paramaeter is a hint for tool/technology specific mappings of this
     /// tech_cell. It indicates wether this particular clk gate instance is
     /// required for functional correctness or just instantiated for power
     /// savings. If IS_FUNCTIONAL == 0, technology specific mappings might
     /// replace this cell with a feedthrough connection without any gating.
-    parameter bit IS_FUNCTIONAL = 1'b1
+    parameter bit IS_FUNCTIONAL = 1'b0
 ) (
     input  logic clk_i,
     input  logic en_i,
@@ -53,18 +53,24 @@ module tc_clk_gating #(
     output logic clk_o
 );
 
-  BUFGCE #(
+  generate
+    if (IS_FUNCTIONAL) begin : gen_clk_gating
+      BUFGCE #(
 `ifdef TARGET_VPK180
-      .SIM_DEVICE("VERSAL_PRIME"),
-      .CE_TYPE("HARDSYNC")
+          .SIM_DEVICE("VERSAL_PRIME"),
+          .CE_TYPE("HARDSYNC")
 `elsif TARGET_VCU128
-      .SIM_DEVICE("ULTRASCALE")
+          .SIM_DEVICE("ULTRASCALE")
 `endif
-  ) bufgce_inst (
-      .O(clk_o),  // Output clock
-      .CE(en_i | test_en_i),  // Clock enable signal
-      .I(clk_i)  // Input clock
-  );
+      ) bufgce_inst (
+          .O(clk_o),  // Output clock
+          .CE(en_i | test_en_i),  // Clock enable signal
+          .I(clk_i)  // Input clock
+      );
+    end else begin : gen_clk_feedthrough
+      assign clk_o = clk_i;
+    end
+  endgenerate
 
 endmodule
 
@@ -116,5 +122,3 @@ module tc_clk_or2 (
   assign clk_o = clk0_i | clk1_i;
 
 endmodule
-
-
