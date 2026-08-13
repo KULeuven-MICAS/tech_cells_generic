@@ -10,7 +10,37 @@
 
 // Cells to be used for Xilinx FPGA mappings
 
+module tc_clk_nand2 (
+    input  logic clk0_i,
+    input  logic clk1_i,
+    output logic clk_o
+);
+
+  assign clk_o = ~(clk0_i & clk1_i);
+
+endmodule
+
+module tc_clk_nand2_hs (
+    input  logic clk0_i,
+    input  logic clk1_i,
+    output logic clk_o
+);
+
+  assign clk_o = ~(clk0_i & clk1_i);
+
+endmodule
+
 module tc_clk_and2 (
+    input  logic clk0_i,
+    input  logic clk1_i,
+    output logic clk_o
+);
+
+  assign clk_o = clk0_i & clk1_i;
+
+endmodule
+
+module tc_clk_and2_hs (
     input  logic clk0_i,
     input  logic clk1_i,
     output logic clk_o
@@ -74,6 +104,32 @@ module tc_clk_gating #(
 
 endmodule
 
+// FPGA's clock gating cell resource is scarce and should not be implemented by default.
+module tc_clk_gating_hs #(
+    /// This paramaeter is a hint for tool/technology specific mappings of this
+    /// tech_cell. It indicates wether this particular clk gate instance is
+    /// required for functional correctness or just instantiated for power
+    /// savings. If IS_FUNCTIONAL == 0, technology specific mappings might
+    /// replace this cell with a feedthrough connection without any gating.
+    parameter bit IS_FUNCTIONAL = 1'b0
+) (
+    input  logic clk_i,
+    input  logic en_i,
+    input  logic test_en_i,
+    output logic clk_o
+);
+
+  tc_clk_gating #(
+      .IS_FUNCTIONAL(IS_FUNCTIONAL)
+  ) i_tc_clk_gating (
+      .clk_i,
+      .en_i,
+      .test_en_i,
+      .clk_o
+  );
+
+endmodule
+
 module tc_clk_inverter (
     input  logic clk_i,
     output logic clk_o
@@ -103,6 +159,17 @@ module tc_clk_mux2 (
 
 endmodule
 
+module tc_clk_mux2_hs (
+    input  logic clk0_i,
+    input  logic clk1_i,
+    input  logic clk_sel_i,
+    output logic clk_o
+);
+
+  assign clk_o = clk_sel_i ? clk1_i : clk0_i;
+
+endmodule
+
 module tc_clk_xor2 (
     input  logic clk0_i,
     input  logic clk1_i,
@@ -113,7 +180,27 @@ module tc_clk_xor2 (
 
 endmodule
 
+module tc_clk_xor2_hs (
+    input  logic clk0_i,
+    input  logic clk1_i,
+    output logic clk_o
+);
+
+  assign clk_o = clk0_i ^ clk1_i;
+
+endmodule
+
 module tc_clk_or2 (
+    input  logic clk0_i,
+    input  logic clk1_i,
+    output logic clk_o
+);
+
+  assign clk_o = clk0_i | clk1_i;
+
+endmodule
+
+module tc_clk_or2_hs (
     input  logic clk0_i,
     input  logic clk1_i,
     output logic clk_o
